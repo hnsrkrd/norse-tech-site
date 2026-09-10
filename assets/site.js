@@ -12,10 +12,9 @@
     ['miners.html','Miners'],
     ['authorities.html','Authorities'],
     ['partners.html','Partners'],
-    ['news.html','News'],
     ['about.html','About'],
     ['philosophy.html','Philosophy'],
-    ['test-your-ore.html','Test Your Ore']
+    ['articles.html','Articles']
   ];
 
   const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
@@ -39,6 +38,14 @@
 
     nav.appendChild(link); // moves existing links into the canonical order
   });
+
+  // Articles replaces Test Your Ore as the boxed primary-navigation item.
+  Array.from(nav.querySelectorAll('a')).forEach(a=>{
+    const raw=(a.getAttribute('href')||'').split('?')[0].split('#')[0].toLowerCase();
+    if(raw==='test-your-ore.html' || raw.endsWith('/test-your-ore.html')) a.remove();
+  });
+  const articlesLink=nav.querySelector('a[href="articles.html"]');
+  if(articlesLink) articlesLink.classList.add('nav-cta');
 
   // Remove obsolete/duplicate primary-nav links only if they duplicate a canonical target.
   const seen=new Set();
